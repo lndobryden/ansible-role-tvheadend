@@ -1,0 +1,4 @@
+---
+# defaults file for tvheadend
+tvheadend_username: admin
+tvheadend_password: password

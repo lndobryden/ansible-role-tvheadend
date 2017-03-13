@@ -1,0 +1,5 @@
+---
+# vars file for tvheadend
+schedules_direct_username:
+schedules_direct_password:
+schedules_direct_lineup: 

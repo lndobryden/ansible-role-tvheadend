@@ -1,0 +1,45 @@
+---
+# Setup apt repo
+- name: Install TVHeadend Apt Key
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=379CE192D401AB61
+
+# Perhaps should update this to depend on distribution
+- name: Install TVHeadend Apt Repo
+  apt_repository: repo='deb https://dl.bintray.com/tvheadend/deb xenial stable' state=present
+
+- name: Install HDHomerun
+  apt: name=libhdhomerun2 state=installed
+
+- name: "Configure Tvheadend User"
+  debconf: name=tvheadend question=tvheadend/admin_username vtype=string value={{ tvheadend_username }}
+
+- name: "Configure Tvheadend Password"
+  debconf: name=tvheadend question=tvheadend/admin_password vtype=password value={{ tvheadend_password }}
+
+- name: Install TVHeadend
+  apt: name=tvheadend state=installed
+
+- name: Ensure tvheadend is running (and enable it at boot)
+  service: name=tvheadend state=started enabled=yes
+
+- name: Deploy SchedulesDirect Config
+  template: src=tv_grab_sd_json.conf.j2 dest=/home/hts/.xmltv/tv_grab_sd_json.conf owner=hts group=hts mode=644
+
+- file:
+    path: /mnt/storage/tvheadend
+    state: directory
+    mode: 0775
+    owner: hts
+    group: hts
+- file:
+    path: /mnt/storage/tvheadend/timeshift
+    state: directory
+    mode: 0775
+    owner: hts
+    group: hts
+- file:
+    path: /mnt/storage/tvheadend/recordings
+    state: directory
+    mode: 0775
+    owner: hts
+    group: hts
