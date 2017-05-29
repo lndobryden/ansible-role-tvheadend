@@ -5,7 +5,7 @@
 
 # Perhaps should update this to depend on distribution
 - name: Install TVHeadend Apt Repo
-  apt_repository: repo='deb https://dl.bintray.com/tvheadend/deb xenial stable' state=present
+  apt_repository: repo='deb https://dl.bintray.com/tvheadend/deb raspbianjessie stable-4.2' state=present
 
 - name: Install HDHomerun
   apt: name=libhdhomerun2 state=installed
