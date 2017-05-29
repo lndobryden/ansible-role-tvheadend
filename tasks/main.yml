@@ -7,9 +7,15 @@
 - name: Install TVHeadend Apt Repo
   apt_repository: repo='deb https://dl.bintray.com/tvheadend/deb raspbianjessie stable-4.2' state=present
 
-- name: Install HDHomerun
+- name: Install HDHomerun2
   apt: name=libhdhomerun2 state=installed
-
+  ignore_errors: True
+  register: hdhomerun2
+  
+- name: Install HDHomerun3
+  apt: name=libhdhomerun3 state=installed
+  when: hdhomerun2|failed
+  
 - name: "Configure Tvheadend User"
   debconf: name=tvheadend question=tvheadend/admin_username vtype=string value={{ tvheadend_username }}
 
